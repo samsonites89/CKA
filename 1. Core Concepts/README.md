@@ -54,8 +54,30 @@ kubernetes에서 동작하고 있는 모든 리소스에 대한 정보 및 상�
 `container runtime`을 말그대로 컨네이터가 동작하는 방식/환경이다. 앞서 설명된 `kubelet`이 노드에 pod을 패보하게 되면,
 해당 pod을 구성하는 container가 `container runtime`에 배포되는 샘이다. `docker engine`이 현재 제일 많이 활용되는 runtime 이다.
 
+### Kubernetes Deployment
+
+앞서 언급한 바와 같이 `kubernetes`에서는 Pod 이 제일 작은 단위 유닛이라고 볼 수 있으며,
+이런 단일 혹은 다수의 Pod을 ***배포(deploy)*** 하는 방식으로 시스템을 구현하게 된다.
+
+Pod 가 배포되는 "방식"은 다양하며, `replicaset` , `daemonset` 등 리소스의 성격에 따라 복제형 방식으로 배포가 될 수도 있다.
+
+
+### Kubernetes Sequence Diagram
+
+`kubernetes``의 컨샙 및 전반적인 구성을 조금 더 쉽게 이해하기 위해,
+아래 sequence diagram 을 통해 리소스가 배포되는 흐름을 살펴본다.
+
 ![core concept arch](../images/kubernetes_sequences.png)
 
+#### Replicaset 생성 Flow Diagram
+
+1. `kubectl`로 `kube-apiserver`로 리소스(replicaset) 배포 요청
+2. `kube-apiserver` 상 `deployment` 생성. `etcd`에 정보 기재
+3. `apiserver`를 바라보고 있는 `deployment controller`가 해당 리소스 정보 기반으로 `replicaset`정보 생성
+4. `apiserver`를 바라보고 있는 `replicaset controller`에서 관련 `pod` (x N) 생성
+5. `apiserver`를 바라보고 있는 `scheduler` 가 `pod`을 노드에게 할당 및 각 노드에 `kubelet`에게 전달
+6.  `kubelet` 은 `container runtime (docker)`  에게 `pod`에 해당하는 `container` 생성 지시
+7. `container` 생성
 
 
 
@@ -68,3 +90,5 @@ metadata: # name, label등 리소스에 대한 meta값
 spec: #리소스에 대한 specification 정의. 어떤 kind인지에 따라 해당 내용이 많이 바뀐다.
     ...
 ```
+
+### Kubernetes Namespace
