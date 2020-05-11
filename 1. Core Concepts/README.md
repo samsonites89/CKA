@@ -225,12 +225,36 @@ Events:
 
 ### Kubernetes Namespace
 
-`kubernetes`에서 `namespace` 는 배포되는 리소스를 구분하기 위한 방법이다. 필요 시 `namespace` 마다 권한 관리도 지정할 수 있다.
+`kubernetes`에서 `namespace` 는 배포되는 리소스를 구분하기 위한 방법이다. 필요 시 `namespace` 마다 권한도 지정할 수 있다.
 
 namespace를 조회하기 위핸 `kubectl get namespace` command를 활용한다.
 ```shell script
-# ns 약사 사용가능
-kubectl get ns 
+# ns 약자 사용가능
+kubectl get ns
+
+# kube-system namespace 조회
+master $ kubectl get ns kube-system
+NAME          STATUS   AGE
+kube-system   Active   81s
+ 
+
+
+# -A 로 pod을 조회했을때 각 pod이 속한 namespace가 확인 가능
+master $ kubectl get po -A
+NAMESPACE     NAME                             READY   STATUS    RESTARTS   AGE
+default       ubuntu-sleeper                   1/1     Running   0          18m
+default       ubuntu-sleeper-2                 1/1     Running   0          10m
+default       ubuntu-sleeper-3                 1/1     Running   0          2m51s
+kube-system   coredns-5644d7b6d9-mnfkm         1/1     Running   0          18m
+kube-system   coredns-5644d7b6d9-nn4rn         1/1     Running   0          18m
+kube-system   etcd-master                      1/1     Running   0          19m
+kube-system   kube-apiserver-master            1/1     Running   1          18m
+kube-system   kube-controller-manager-master   1/1     Running   0          18m
+kube-system   kube-proxy-c5rnd                 1/1     Running   0          18m
+kube-system   kube-proxy-k76tk                 1/1     Running   0          18m
+kube-system   kube-scheduler-master            1/1     Running   0          19m
+kube-system   weave-net-2d9pz                  2/2     Running   0          18m
+kube-system   weave-net-jk2rz                  2/2     Running   0          18m
 ```
 
 
