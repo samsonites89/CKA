@@ -7,6 +7,7 @@ Repository to organize info and work related to CKA
   + Understand the Kubernetes API Primitives
   + Understand Kubernetes cluster architecture
   + Understand `Services` and other network primitives
+  
 - Scheduling 5%
   + labeling and selectors
   + resource limits
@@ -15,11 +16,13 @@ Repository to organize info and work related to CKA
   + multiple schedulers
   + scheduler events
   + configure kubernetes scheduler
+  
 - Logging / Monitoring 5%
   + monitor cluster components
   + monitor applications
   + monitor cluster components logs
   + application logs
+  
 - Application Lifecycle Management 8%
   + Rolling Updates and Rollbacks in Deployments
   + Configure Applications
@@ -32,6 +35,15 @@ Repository to organize info and work related to CKA
   + backup and restore methodologies
   
 - Security 12%
+  + kubernetes security primitives
+  + secure persistent value store
+  + authentication
+  + authorization
+  + security contexts
+  + tls for cluster components
+  + image security
+  + network policies
+  
 - Storage 7%
 - Networking 11%
 - Installation, Configuration & Validation 12%
