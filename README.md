@@ -27,6 +27,10 @@ Repository to organize info and work related to CKA
   + Self-healing Applications
   
 - Cluster Maintenance 11%
+  + cluster upgrade process
+  + operating system upgrades
+  + backup and restore methodologies
+  
 - Security 12%
 - Storage 7%
 - Networking 11%
