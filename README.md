@@ -4,14 +4,46 @@ Repository to organize info and work related to CKA
 ## 시험 구성 (문제 연습 사이트 순서로 재나열)
 
 - Core Concepts 19%
- + Understand the Kubernetes API Primitives
- + Understand Kubernetes cluster architecture
- + Understand `Services` and other network primitives
+  + Understand the Kubernetes API Primitives
+  + Understand Kubernetes cluster architecture
+  + Understand `Services` and other network primitives
+  
 - Scheduling 5%
+  + labeling and selectors
+  + resource limits
+  + manual scheduling
+  + daemon sets
+  + multiple schedulers
+  + scheduler events
+  + configure kubernetes scheduler
+  
 - Logging / Monitoring 5%
+  + monitor cluster components
+  + monitor applications
+  + monitor cluster components logs
+  + application logs
+  
 - Application Lifecycle Management 8%
+  + Rolling Updates and Rollbacks in Deployments
+  + Configure Applications
+  + Scale Applications
+  + Self-healing Applications
+  
 - Cluster Maintenance 11%
+  + cluster upgrade process
+  + operating system upgrades
+  + backup and restore methodologies
+  
 - Security 12%
+  + kubernetes security primitives
+  + secure persistent value store
+  + authentication
+  + authorization
+  + security contexts
+  + tls for cluster components
+  + image security
+  + network policies
+  
 - Storage 7%
 - Networking 11%
 - Installation, Configuration & Validation 12%
