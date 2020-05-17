@@ -38,3 +38,25 @@ kubectl create deployment --image=nginx nginx
 # deployment yaml 생성
 kubectl create deployment --image=nginx nginx --dry-run -o yaml > nginx-deployment.yaml
 ```
+
+
+#### 축약어
+```yaml
+pod : po
+replicationcontroller : rc
+replicaset : rs
+deployment : deploy
+namespace : ns
+service : svc
+certificatesigningrequest : csr
+ingress : ing
+networkpolicies : netpol
+node: no
+persistentvolumeclaim : pvc
+persistentvolume : pv
+serviceaccount : sa
+daemonset : ds
+
+--namespace : -n
+--selector : -l
+```
