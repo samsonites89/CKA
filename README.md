@@ -45,6 +45,11 @@ Repository to organize info and work related to CKA
   + network policies
   
 - Storage 7%
+  + Persistent Volumes
+  + Persistent Volume Claims
+  + How to Configure Apps with Volumes
+  + Access Modes for Volumes
+  + Kubernetes Storage Object
 - Networking 11%
 - Installation, Configuration & Validation 12%
 - Troubleshooting 10%
