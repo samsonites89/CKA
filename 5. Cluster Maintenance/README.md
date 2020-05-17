@@ -1,5 +1,27 @@
 # [WIP] OS Upgrade
 
+## OS Upgrades
+
+version. update cluster. a DR scenario.
+
+
+`Pod eviction time`
+
+node 가 내려간 후 다시 online화 될때까지 기다리는 시간
+`kube-controller-manager --pod-eviction-time`. 기본값은 5분이다.
+
+Node가 복구될 때 이 eviction 시간이 지나면,내부에 있던 pod이 다시 생성되지 않는다.
+
+`kubectl drain node-1` 노드를 drain해서 리소스를 이동시킨다.
+drain을 하게 되면 node는 cordoned 이라고 표시되며, 리소스를 할당 받을 수 없는 상태 도입(unschedulable)
+
+`uncordon`을 사용해서 노드를 다시 schedulable하게금 설정
+
+
+`kubectl cordon` : 노드는 추가 리소스를 할당 받을 수 가 없음
+
+
+
 ## Cluster Upgrade Process
 
 `kube-apiserver` 를 기준으로
