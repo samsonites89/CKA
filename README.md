@@ -51,8 +51,23 @@ Repository to organize info and work related to CKA
   + Access Modes for Volumes
   + Kubernetes Storage Object
 - Networking 11%
+  + Pre-requisites
+      - Network, Switching, Routing
+      - Network Namespaces
+      - DNS, IPAMS, LBs, Firewalls
+      - Networking in Docker
+  + Network Configs on Cluster Nodes
+  + Service Networking
+  + Pod Networking
+  + Network LoadBalancer
+  + Ingress
+  + Cluster DNS
+  + CNI    
 - Installation, Configuration & Validation 12%
 - Troubleshooting 10%
+  + Application Failure
+  + Worker Node Failure
+  + Networking
 - Other Topics
 
 ## 참고 사이트

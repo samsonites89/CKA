@@ -7,23 +7,18 @@ kubectl rollout status deployment/myapp-deployment
 kubectl rollout history deployment/myapp-deployment
 ```
 
-2 Types of Deployment Strategy
+2 Main Types of Deployment Strategy
 
-1. Recreate Strategy : Destroy and Re create
+1. `Recreate Strategy` : Destroy and Re-create
    = Apps are Down
-2. Rolling Update: Down 1 Up 1 (default)
+2. `Rolling Update`: Down 1 Up 1 (default)
 
 
-What does it mean to update
+What does it mean to update *deployment def 파일* 변경 후 `kubectl apply` 업데이트 진행
 
-This ia after changing the deployment def.
-`kubectl apply`
-
-
- kubectl set image deployment/m
+kubectl set image deployment?
  
- 
- ```shell script
+ ```bash
 # possible to view the update strategy
 kubectl describe deployment
 ```
