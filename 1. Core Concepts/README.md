@@ -271,3 +271,5 @@ spec: #리소스에 대한 specification 정의. 어떤 kind인지에 따라 해
     ...
 ```
 
+#### 간단한 리소스 생성 방법
+`kubectl create` 로 리소스를 간단하게 생성할 수 있다.

@@ -9,7 +9,8 @@ kubectl get pods
 
 Create a new pod with the NGINX image
 
-```
+```shell-script
+# generator 사용. (deprecated)
 kubectl run nginx --generator=run-pod/v1 --image=nginx
 ```
 
@@ -104,14 +105,28 @@ master $ kubectl apply -f redis.yaml
 
 ```
 
+yaml 내용:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata: redis
+spec:
+    containers:
+    - name: nginx
+      image: nginx123
+      imagePullPolicy: IfNotPresent #always
+```
+
+
 Now fix the image on the pod to 'redis'.
 Update the pod-definition file and use 'kubectl apply' command or use 'kubectl edit pod redis' command.
 
-```bash
+```shell script
 # let's try kubectl edit
 kubectl edit pod redis
 
-# fix the image portoin in the spec:
+# fix the image portion in the spec:
 spec:
   containers:
   - image: redis
