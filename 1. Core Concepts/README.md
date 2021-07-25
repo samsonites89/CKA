@@ -13,6 +13,7 @@
 ![core concept arch](../images/kubernetes_architecture.png)
 
 #### ETCD
+
 `etcd` 는 오픈소스 기반에 key/value 저장소이며, 
 단일 진실 공급원[single source of truth(SSOT)]으로서,
 kubernetes에서 동작하고 있는 모든 리소스에 대한 정보 및 상태값을 저장하고 있다.
