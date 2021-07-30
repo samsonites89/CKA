@@ -1,8 +1,14 @@
-## Kubernetes Core Concepts
+#  Kubernetes Core Concepts
 
-### Kubernetes Architecture
+## Key Concepts of Kubernetes
 
-`Kubernetes` 는 아래와 같이 `master`와 `worker` **노드** 구조로 구성이 된다.
+- Interesting fact: k8s is pronounced **Kate's**.
+- `microservices` and `transience` (일시적인 / 순간적인)
+- 쿠버에 따라서 프로그램을 재설계할 필요가 있을 수도 있다!
+
+##  Kubernetes Architecture
+
+`Kubernetes` 는 아래와 같이 `master`(혹은 `control plane`)와 `worker` **노드** 구조로 구성이 된다.
 `master` 와 `worker` 노드는 다수가 존재할 수 있으며, *High Availability(HA)* 를 지원하기 위해 주로 multiple master,
  multiple worker node 기반으로 구성이 된다. `master`와 `worker`로 구성된 단위를 흔히 ***cluster*** 라고 표현한다.
 
@@ -10,7 +16,15 @@
 
 그림에서 보이는 나머지 모듈/컴포넌트들은 ***'어떤 리소스가 어디에(노드)에 배포되고, 이 리소스가 어떻게 관리되는지'*** 를 지원하는 도구라고 볼 수 있다.
 
-![core concept arch](../images/kubernetes_architecture.png)
+![core concept arch](../images/kubernetes_arch_detailed.png)
+
+### Control Plane Node
+
+`cp` node 즉, 마스터 노드에는 아래와 같은 component가 설치되어 있다.
+- `etcd`
+- `kube-apiserver`
+- `kube-controller`
+- `scheduler`
 
 #### ETCD
 
@@ -19,7 +33,7 @@
 kubernetes에서 동작하고 있는 모든 리소스에 대한 정보 및 상태값을 저장하고 있다.
 `etcd` 는 기본적으로 raft 방식으로 구성/동작한다.
 
-#### kube-apiserver
+####  kube-apiserver
 
 `kube-apiserver` 는 인터페이스 역할을 담당하는 모듈로서,
 사용자에 요청에 의해 리소스를 생성하거나 조회할 때 활용된다. 사용자는 주로 `kubectl`이라는 컨트롤러를 사용해서
@@ -27,26 +41,43 @@ kubernetes에서 동작하고 있는 모든 리소스에 대한 정보 및 상�
 상태를 공유 받는다.
 
 `kube-apiserver` 는 또한 `scheduler`와 `controller`와도 연계되며, 
-실질적으로 전반적인 클러스터에 모든 정보를 앞서 설명된 `etcd`에 기재하는 중요한 역할을 담당한다.
+실질적으로 전반적인 클러스터에 **모든 정보를 앞서 설명된 `etcd`에 기재하는 중요한 역할을 담당한다.**
 
-#### scheduler
-`scheduler` 는 요청받은 리소스를 효율적으로 worker node에 할당할 때 사용된다.
+유일하게 `etcd` 와 통신하는 모듈이기도 하다. 
+
+####  scheduler
+`scheduler` 는 요청받은 리소스를 효율적으로 `worker node`에 할당할 때 사용된다. (알고리즘을 활용?)
 `scheduler` 는 노드에 배포되어 있는 pod, 노드의 HW/SW, 메모리와 CPU 활용량 등, 다수의 정보 기반으로 **어떤 프로세스를 어떤 노드에 배포할 지**를
 관리하게 된다.
 
-#### kube-controller-manager
+####  kube-controller-manager
 `kube-controller-manager`는 다수의 controller로 구성되어 있으며, replica, service등이 어떻게 동작하고 구성되어 있는지를 관리한다.
 - Node controller: Responsible for noticing and responding when nodes go down.
 - Replication controller: Responsible for maintaining the correct number of pods for every replication controller object in the system.
 - Endpoints controller: Populates the Endpoints object (that is, joins Services & Pods).
 - Service Account & Token controllers: Create default accounts and API access tokens for new namespaces.
 
-#### kubelet
-`kubelet` 은 각 worker node에서 동작하고 있는 pod을 관리한다. 여기서 pod은,
+####  cloud-controller-manager?
+This is something new I think..
+
+
+###  All Nodes
+
+모든 노드에는 아래 `component` 가 설치된다.
+
+####  kubelet
+`kubelet`(systemd 프로세스) 은 각 `worker node`에서 동작하고 있는 pod을 관리한다. (`master node` 안에서도 `kubelet` 이 동작하고 있다) 여기서 pod은,
 `kubernetes`의 구성 유닛 중 제일 작은 단위라고 볼 수 있다. 
 
+세부사항
+- `PodSpec` 을 사용한다.
+- `Pod`의 볼륨을 마운트 한다.
+-  secrets 을 받는다.
+- local container engine (`docker`, `cri-o`) 로 여ㅛ청사항을 전달한다.
+- `pod`과`node` 상황을 클러스터 공유한다. 
 
-#### kube-proxy
+
+####  kube-proxy
 `kube-proxy`는  노드의 네트워트 정책(rule)을 관리한다. `kube-proxy`는 cluster 내 각 노드에서 동작하며, kubernetes의 *service*와 연관되어
 각 pod의 cluster 내/외 통신을 관리한다. 
 
@@ -55,12 +86,29 @@ kubernetes에서 동작하고 있는 모든 리소스에 대한 정보 및 상�
 `container runtime`을 말그대로 컨네이터가 동작하는 방식/환경이다. 앞서 설명된 `kubelet`이 노드에 pod을 패보하게 되면,
 해당 pod을 구성하는 container가 `container runtime`에 배포되는 샘이다. `docker engine`이 현재 제일 많이 활용되는 runtime 이다.
 
+#### network-realated daemonsets
+
+`worker node`에 기동하고 있는 `pod` 타 워커노드 및 `cp` 노드에서 동작하고 있는 리소스와 통신할 수 있도록,
+각 워커노드에는 네트워크를 담당하는 daemonset이 동작하고 있다.
+
+
 ### Kubernetes Deployment
 
 앞서 언급한 바와 같이 `kubernetes`에서는 Pod 이 제일 작은 단위 유닛이라고 볼 수 있으며,
 이런 단일 혹은 다수의 Pod을 ***배포(deploy)*** 하는 방식으로 시스템을 구현하게 된다.
 
 Pod 가 배포되는 "방식"은 다양하며, `replicaset` , `daemonset` 등 리소스의 성격에 따라 복제형 방식으로 배포가 될 수도 있다.
+
+
+### Services
+
+`service` 는 `endpoint` operator를 참조하여 어떤 pod에 대한 접근 설정이 필요한지 설정해준다. `service` 의 주혁할은:
+- `pod` 간 연계
+- `pod`을 외부 환경으로 노출
+- `pod`에 대한 `access policy` 정의
+
+서비스는 `clusterIP`, `nodePort`, `LoadBalancer` 로 구분된다.  
+
 
 #### Pod 조회 방법
 ```shell script
@@ -257,10 +305,6 @@ kube-system   kube-scheduler-master            1/1     Running   0          19m
 kube-system   weave-net-2d9pz                  2/2     Running   0          18m
 kube-system   weave-net-jk2rz                  2/2     Running   0          18m
 ```
-
-
-
-
 
 #### definition yaml template
 ```yaml
