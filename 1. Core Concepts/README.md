@@ -97,18 +97,18 @@ This is something new I think..
 앞서 언급한 바와 같이 `kubernetes`에서는 Pod 이 제일 작은 단위 유닛이라고 볼 수 있으며,
 이런 단일 혹은 다수의 Pod을 ***배포(deploy)*** 하는 방식으로 시스템을 구현하게 된다.
 
-Pod 가 배포되는 "방식"은 다양하며, `replicaset` , `daemonset` 등 리소스의 성격에 따라 복제형 방식으로 배포가 될 수도 있다.
-
+추가적으로 하나의 pod 은 여러게의 container로 구성될 수가 있다.
+같은 pod에 있는 container들은 같은 network namespace를 사용한다. (IP 도 공유한다. 이 컨셉이 single ip per pod)
+volumemount는 다르다. 고로 동일한 볼륨을 바라보기 위해서는 container마다 volume을 설정해 줄 필요가 있다.
 
 ### Services
 
 `service` 는 `endpoint` operator를 참조하여 어떤 pod에 대한 접근 설정이 필요한지 설정해준다. `service` 의 주혁할은:
-- `pod` 간 연계
+- `pod` 간 연계 
 - `pod`을 외부 환경으로 노출
 - `pod`에 대한 `access policy` 정의
 
 서비스는 `clusterIP`, `nodePort`, `LoadBalancer` 로 구분된다.  
-
 
 #### Pod 조회 방법
 ```shell script
@@ -131,7 +131,7 @@ kube-system   weave-net-7zcb9                  2/2     Running             1    
 kube-system   weave-net-vxq7w                  2/2     Running             1          2m49s
 
 
-# kubectl describe command를 활용하면, 리소스에 대한 부가 저보를 볼 수 있다.
+# kubectl describe command를 활용하면, 리소스에 대한 부가 정보를 볼 수 있다.
 master $ kubectl -n kube-system describe pod weave-net-7zcb9  
 Name:         weave-net-7zcb9Namespace:    kube-system
 Priority:     0
@@ -265,12 +265,13 @@ Events:
 #### Replicaset 생성 Flow Diagram
 
 1. `kubectl`로 `kube-apiserver`로 리소스(replicaset) 배포 요청
-2. `kube-apiserver` 상 `deployment` 생성. `etcd`에 정보 기재
-3. `apiserver`를 바라보고 있는 `deployment controller`가 해당 리소스 정보 기반으로 `replicaset`정보 생성
-4. `apiserver`를 바라보고 있는 `replicaset controller`에서 관련 `pod` (x N) 생성
-5. `apiserver`를 바라보고 있는 `scheduler` 가 `pod`을 노드에게 할당 및 각 노드에 `kubelet`에게 전달
-6.  `kubelet` 은 `container runtime (docker)`  에게 `pod`에 해당하는 `container` 생성 지시
-7. `container` 생성
+2. `etcd` 로 현재 상태 조회 및 사용자에 대한 `authentication` 수행 `RBAC`.
+3. `kube-apiserver` 상 `deployment` 생성. `etcd`에 정보 기재
+4. `apiserver`를 바라보고 있는 `deployment controller`가 해당 리소스 정보 기반으로 `replicaset`정보 생성
+5. `apiserver`를 바라보고 있는 `replicaset controller`에서 관련 `pod` (x N) 생성
+6. `apiserver`를 바라보고 있는 `scheduler` 가 `pod`을 노드에게 할당 및 각 노드에 `kubelet`에게 전달
+7.  `kubelet` 은 `container runtime (docker)`  에게 `pod`에 해당하는 `container` 생성 지시
+8. `container` 생성
 
 ### Kubernetes Namespace
 
@@ -286,7 +287,6 @@ master $ kubectl get ns kube-system
 NAME          STATUS   AGE
 kube-system   Active   81s
  
-
 
 # -A 로 pod을 조회했을때 각 pod이 속한 namespace가 확인 가능
 master $ kubectl get po -A

@@ -17,6 +17,8 @@
 Installing with `kubeadm`, all the resources for the `control plane` node will
 be located under `/etc/kubernetes/manifests`. These are `static pod`s !!
 
+use `kubeadm init` to install `cp node`. use `join` to add  `worker nodes`
+
 ### upgrading with `kubeadm`
 
 here's a brief walkthrough of upgrade with `kubeadm`
