@@ -9,15 +9,20 @@ kubectl get pods
 
 Create a new pod with the NGINX image
 
-```shell-script
+```bash
 # generator 사용. (deprecated)
 kubectl run nginx --generator=run-pod/v1 --image=nginx
+
+## kubectl 1.23.3 k3s 
+kubectl run nginx --image=nginx
+
 ```
 
 What is the image used to create the new pods?
 You must look at one of the new pods in detail to figure this out
 
-```
+```bash
+# use describe command to get more info
 kubectl describe pod $podname | grep Image
 ```
 
