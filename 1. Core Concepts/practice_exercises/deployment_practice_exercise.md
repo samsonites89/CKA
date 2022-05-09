@@ -1,18 +1,18 @@
 ## Deployment
 
 1. How many replicasets are there?
-```shell script
+```bash
 kubectl get rs
 ```
 
 2. How many deployments?
-```shell script
+```bash
 kubectl get deploy
 ```
 
 
 4. What images are being used?
-```shell script
+```bash
 kubectl describe deploy front-end deployment
 Name:                   frontend-deployment
 Namespace:              default
@@ -38,4 +38,7 @@ Pod Template:
 
 ```shell script
 # 제일 쉬운 방법은 kubectl create --dry-run
+kubectl create deployment httpd-frontend --iamge=httpd:2.4-alpine --replicas=3 --dry-run=client -o yaml > def.yaml
+
+kubectl apply -f def.yaml
 ```
